@@ -1,0 +1,39 @@
+name: CI Node.js
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          repository: PXL-2TIN-DevOps-Resources/calculator-app-finished
+
+      - name: Installeer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Installeer dependencies
+        run: npm ci
+
+      - name: Voer unit tests uit
+        run: npm test
+
+      - name: Genereer test coverage rapport
+        run: npm test -- --coverage
+
+      - name: Upload test resultaten als artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-resultaten
+          path: |
+            junit.xml
+            coverage/
