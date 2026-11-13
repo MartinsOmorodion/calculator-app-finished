@@ -22,7 +22,7 @@ jobs:
           cache: npm
 
       - name: Installeer dependencies
-        run: npm ci
+        run: npm install
 
       - name: Voer unit tests uit
         run: npm test
